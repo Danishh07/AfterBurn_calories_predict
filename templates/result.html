@@ -45,7 +45,7 @@
                 <p class="text-gray-600 mb-2 font-medium">CALORIES BURNT</p>
                 <div class="text-5xl font-bold text-flame mb-2">{{ calories }} <span class="text-2xl">kcal</span></div>
                 <p class="text-sm text-gray-500 mt-3">
-                    🔥 Equivalent to {{ ((calories|float)/55)|round(1) }} minutes of running
+                   {{ equivalent }} • {{ food_equivalent }}
                 </p>
             </div>
 
@@ -79,22 +79,5 @@
             </div>
         </div>
     </div>
-
-    <!-- Optional: More detailed comparisons -->
-    <script>
-        function showFoodComparisons() {
-            const calories = parseFloat("{{ calories }}");
-            const foods = [
-                { emoji: "🍕", item: "slice of pizza", cals: 285 },
-                { emoji: "🍔", item: "hamburger", cals: 354 },
-                { emoji: "☕", item: "cappuccinos", cals: 120 }
-            ];
-            
-            return foods.map(food => {
-                const amount = (calories / food.cals).toFixed(1);
-                return `${amount}x ${food.emoji} ${food.item}`;
-            }).join(" • ");
-        }
-    </script>
 </body>
 </html>

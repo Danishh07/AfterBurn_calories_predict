@@ -1,6 +1,16 @@
-fastapi
-uvicorn
-joblib
-pandas
-scikit-learn
-python-multipart
+# Core
+fastapi==0.109.1
+uvicorn==0.27.0
+python-multipart==0.0.7
+
+# Data Processing
+pandas==2.2.2
+numpy==2.0.2
+
+# ML
+scikit-learn==1.6.1
+xgboost==2.1.4
+joblib==1.4.2
+
+# Templates
+Jinja2==3.1.3
