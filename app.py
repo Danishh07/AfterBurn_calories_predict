@@ -7,9 +7,6 @@ import os
 
 app = FastAPI()
 
-# Mount static files (for CSS/JS if needed)
-app.mount("/static", StaticFiles(directory="static"), name="static")
-
 # Load model safely
 try:
     pipeline = joblib.load("pipeline_model.joblib")
