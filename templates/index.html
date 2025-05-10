@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AfterBurn | Calorie Prediction</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'flame': '#FF5F15',
+                        'deep-night': '#0F172A',
+                        'electric': '#00F5FF',
+                    },
+                    transitionProperty: {
+                        'width': 'width',
+                        'shadow': 'box-shadow',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom slider styling */
+        input[type="range"] {
+            appearance: none;
+            -webkit-appearance: none;
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 3px;
+            outline: none;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #FF5F15;
+            cursor: pointer;
+            border: none;
+        }
+        /* Firefox support */
+        input[type="range"]::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #FF5F15;
+            cursor: pointer;
+            border: none;
+        }
+    </style>
+    <!-- Flame favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔥</text></svg>">
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden border border-gray-200">
+        <!-- Header with gradient -->
+        <div class="bg-gradient-to-r from-deep-night to-[#1E293B] text-white p-6 text-center">
+            <div class="flex justify-center items-center mb-2">
+                <svg width="28" height="28" viewBox="0 0 28 28" class="mr-2">
+                    <path fill="#FF5F15" d="M14 4C8 10 6 18 14 24C22 18 20 10 14 4Z"/>
+                    <path stroke="#00F5FF" stroke-width="1.5" fill="none" d="M4 14L10 14M18 14L24 14" stroke-linecap="round"/>
+                </svg>
+                <h1 class="text-2xl font-bold">
+                    <span>After</span>
+                    <span class="text-flame">Burn</span>
+                </h1>
+            </div>
+            <p class="text-blue-300 text-sm">Measure Your Fire</p>
+        </div>
+
+        <!-- Form container -->
+        <form action="/predict" method="post" class="p-6 space-y-5">
+            <!-- Gender -->
+            <div>
+                <label class="block text-gray-700 font-medium mb-1">Gender</label>
+                <div class="flex space-x-4">
+                    <label class="flex items-center">
+                        <input type="radio" name="Gender" value="male" checked class="h-4 w-4 text-flame focus:ring-flame">
+                        <span class="ml-2 text-gray-700">Male</span>
+                    </label>
+                    <label class="flex items-center">
+                        <input type="radio" name="Gender" value="female" class="h-4 w-4 text-flame focus:ring-flame">
+                        <span class="ml-2 text-gray-700">Female</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Age -->
+            <div>
+                <label class="block text-gray-700 font-medium mb-1">Age (years)</label>
+                <input type="number" name="Age" min="10" max="100" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-flame focus:border-flame transition" required>
+            </div>
+
+            <!-- Height with slider -->
+            <div>
+                <label class="block text-gray-700 font-medium mb-1">Height: <span id="heightValue" class="text-flame font-medium">170</span> cm</label>
+                <input type="range" name="Height" min="100" max="250" value="170" 
+                       oninput="document.getElementById('heightValue').textContent = this.value" 
+                       class="w-full mt-2">
+            </div>
+
+            <!-- Weight with slider -->
+            <div>
+                <label class="block text-gray-700 font-medium mb-1">Weight: <span id="weightValue" class="text-flame font-medium">70</span> kg</label>
+                <input type="range" name="Weight" min="30" max="150" value="70" 
+                       oninput="document.getElementById('weightValue').textContent = this.value" 
+                       class="w-full mt-2">
+            </div>
+
+            <!-- Duration with slider -->
+            <div>
+                <label class="block text-gray-700 font-medium mb-1">Duration: <span id="durationValue" class="text-flame font-medium">30</span> min</label>
+                <input type="range" name="Duration" min="1" max="120" value="30" 
+                       oninput="document.getElementById('durationValue').textContent = this.value" 
+                       class="w-full mt-2">
+            </div>
+
+            <!-- Heart Rate -->
+            <div>
+                <label class="block text-gray-700 font-medium mb-1">Heart Rate: <span id="hrValue" class="text-flame font-medium">120</span> bpm</label>
+                <input type="range" name="Heart_Rate" min="40" max="200" value="120" 
+                       oninput="document.getElementById('hrValue').textContent = this.value" 
+                       class="w-full mt-2">
+            </div>
+
+            <!-- Body Temp -->
+            <div>
+                <label class="block text-gray-700 font-medium mb-1">Body Temp: <span id="tempValue" class="text-flame font-medium">37.0</span> °C</label>
+                <input type="range" name="Body_Temp" min="35" max="41" step="0.1" value="37.0" 
+                       oninput="document.getElementById('tempValue').textContent = this.value" 
+                       class="w-full mt-2">
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" id="submit-btn" class="w-full bg-flame hover:bg-[#E04B00] text-white font-medium py-3 px-4 rounded-lg shadow-lg transition-all duration-300 mt-6 flex items-center justify-center">
+                <span id="btn-text">Calculate Calories Burnt</span>
+                <span id="btn-spinner" class="hidden ml-2">⌛</span>
+            </button>
+        </form>
+    </div>
+
+    <script>
+        // Initialize slider values
+        document.addEventListener('DOMContentLoaded', function() {
+            const sliders = document.querySelectorAll('input[type="range"]');
+            sliders.forEach(slider => {
+                const outputId = slider.name.replace('_', '') + 'Value';
+                document.getElementById(outputId).textContent = slider.value;
+            });
+        });
+
+        // Loading state
+        document.querySelector('form').addEventListener('submit', () => {
+            document.getElementById('btn-text').textContent = 'Calculating...';
+            document.getElementById('btn-spinner').classList.remove('hidden');
+            document.getElementById('submit-btn').disabled = true;
+        });
+    </script>
+</body>
+</html>

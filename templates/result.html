@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AfterBurn | Results</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'flame': '#FF5F15',
+                        'deep-night': '#0F172A',
+                        'electric': '#00F5FF',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Flame favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔥</text></svg>">
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden border border-gray-200">
+        <!-- Header matching index.html -->
+        <div class="bg-gradient-to-r from-deep-night to-[#1E293B] text-white p-5 text-center">
+            <div class="flex justify-center items-center mb-2">
+                <svg width="28" height="28" viewBox="0 0 28 28" class="mr-2">
+                    <path fill="#FF5F15" d="M14 4C8 10 6 18 14 24C22 18 20 10 14 4Z"/>
+                    <path stroke="#00F5FF" stroke-width="1.5" fill="none" d="M4 14L10 14M18 14L24 14" stroke-linecap="round"/>
+                </svg>
+                <h1 class="text-2xl font-bold">
+                    <span>After</span>
+                    <span class="text-flame">Burn</span>
+                </h1>
+            </div>
+            <p class="text-blue-400 text-sm">Measure Your Fire</p>
+        </div>
+
+        <!-- Result Content -->
+        <div class="p-6 space-y-6">
+            <!-- Main Result Display -->
+            <div class="bg-gradient-to-r from-blue-50 to-gray-50 p-6 rounded-lg border border-gray-200 text-center">
+                <p class="text-gray-600 mb-2 font-medium">CALORIES BURNT</p>
+                <div class="text-5xl font-bold text-flame mb-2">{{ calories }} <span class="text-2xl">kcal</span></div>
+                <p class="text-sm text-gray-500 mt-3">
+                    🔥 Equivalent to {{ ((calories|float)/55)|round(1) }} minutes of running
+                </p>
+            </div>
+
+            <!-- Context Card -->
+            <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                <h3 class="font-medium text-deep-night mb-2 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-flame mr-1" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                    </svg>
+                    FITNESS INSIGHT
+                </h3>
+                <p class="text-sm text-gray-700">
+                    You've burned {{ ((calories|float)/500)|round(1) }}x the calories in a banana - great work!
+                </p>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex gap-4 pt-2">
+                <a href="/" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded-lg transition text-center flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+                    </svg>
+                    New Calculation
+                </a>
+                <button onclick="window.print()" class="flex-1 bg-white border border-flame text-flame hover:bg-orange-50 font-medium py-2 px-4 rounded-lg transition flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M5 4v3H4a2 2 0 00-2 2v3a2 2 0 002 2h1v2a2 2 0 002 2h6a2 2 0 002-2v-2h1a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H7a2 2 0 00-2 2zm8 0H7v3h6V4zm0 8H7v4h6v-4z" clip-rule="evenodd" />
+                    </svg>
+                    Print
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional: More detailed comparisons -->
+    <script>
+        function showFoodComparisons() {
+            const calories = parseFloat("{{ calories }}");
+            const foods = [
+                { emoji: "🍕", item: "slice of pizza", cals: 285 },
+                { emoji: "🍔", item: "hamburger", cals: 354 },
+                { emoji: "☕", item: "cappuccinos", cals: 120 }
+            ];
+            
+            return foods.map(food => {
+                const amount = (calories / food.cals).toFixed(1);
+                return `${amount}x ${food.emoji} ${food.item}`;
+            }).join(" • ");
+        }
+    </script>
+</body>
+</html>
